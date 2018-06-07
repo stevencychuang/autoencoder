@@ -2,3 +2,5 @@
 trial
 .ipynb_checkpoints
 experiments
+.project
+.pydevproject
