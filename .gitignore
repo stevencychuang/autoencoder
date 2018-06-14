@@ -1,6 +1,3 @@
-.gitignore
-trial
-.ipynb_checkpoints
-experiments
-.project
-.pydevproject
+./illustration/core
+./illustration/ipynb_checkpoints
+./illustration/__pycache__
