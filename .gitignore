@@ -1,3 +1,5 @@
 ./illustration/core
-./illustration/ipynb_checkpoints/*
+./illustration/.ipynb_checkpoints/*
 ./illustration/__pycache__/*
+./models/temp/*
+./trial/.ipynb_checkpoints/*
