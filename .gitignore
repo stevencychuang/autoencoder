@@ -3,5 +3,6 @@
 ./illustration/.ipynb_checkpoints/*
 ./illustration/__pycache__/*
 ./models/temp/*
+models
 ./trial/.ipynb_checkpoints
 ./trial/.ipynb_checkpoints/*
