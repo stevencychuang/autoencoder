@@ -1,4 +1,5 @@
 import numpy as np
+from sklearn.metrics import mean_squared_error, mean_absolute_error
 import matplotlib.pyplot as plt
     
 def plotProgress(history):
@@ -9,6 +10,27 @@ def plotProgress(history):
     plt.xlabel('epoch')
     plt.legend(['train', 'test'], loc='upper right')
     plt.show()
+
+def compReconst(x, decode, method='log_loss'):
+    # Flatten features as one vector
+    numInst = x.shape[0]
+    xResh = x.reshape(numInst,-1)
+    decodeResh = decode.reshape(numInst,-1)
+    
+    # Determine the error by methods
+    if method=='log_loss':
+        xResh = x.reshape(numInst,-1,1)
+        decodeResh = decode.reshape(numInst,-1,1)
+        err = -np.sum(xResh*np.log(decodeResh))/numInst
+    elif method=='rmse':
+        err = np.sqrt(mean_squared_error(xResh, decodeResh))
+    elif method=='mse':
+        err = mean_squared_error(xResh, decodeResh)
+    elif method=='mae':
+        err = mean_absolute_error(xResh, decodeResh)
+        
+    return err
+        
     
 def plotCompDecode(x, decode, n=10, xNoise=None, sizeDigit=None):
     '''
