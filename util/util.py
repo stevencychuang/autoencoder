@@ -79,7 +79,7 @@ def plotCompDecode(x, decode, n=10, xNoise=None, sizeDigit=None):
         ax.get_yaxis().set_visible(False)
     plt.show()
     
-def plotScatterEncode(encode, y, xlim, ylim, numShow=2000, sizeFont=40):
+def plotScatterEncode(encode, y, xlim, ylim, numShow=2000, sizeFont=40, dimShow=[0, 1], markersize=12):
     '''
     This function is to plot the scatter for the encoded x of the dataset.
     It should be noted that the plot always show the first 2 dimensions of x.
@@ -91,20 +91,21 @@ def plotScatterEncode(encode, y, xlim, ylim, numShow=2000, sizeFont=40):
         numShow: the number of instances to show
         sizeFont: the font size for the labels of instances if they exist
     '''
+    s = [markersize for n in range(len(encode))]
     plt.figure(figsize=(12, 12))
     if y is None:
-        plt.scatter(encode[0:numShow, 0], encode[0:numShow, 1], cmap='viridis')
+        plt.scatter(encode[0:numShow, dimShow[0]], encode[0:numShow, dimShow[1]], cmap='viridis', s=s)
     else:
-        plt.scatter(encode[0:numShow, 0], encode[0:numShow, 1], c=y[0:numShow], cmap='viridis')
+        plt.scatter(encode[0:numShow, dimShow[0]], encode[0:numShow, dimShow[1]], c=y[0:numShow], cmap='viridis', s=s)
         plt.colorbar()
         for i in np.unique(y, return_index=True)[1]:  # list the first indices of each digit 
-            plt.text(encode[i, 0], encode[i, 1], y[i], fontsize=sizeFont)
+            plt.text(encode[i, dimShow[0]], encode[i, dimShow[1]], y[i], fontsize=sizeFont)
     plt.xlim(*xlim)
     plt.ylim(*ylim)
     plt.show()
     
 
-def plotScatterDecode(decoder, sizeDigit, xlim, ylim, numDigit=15):
+def plotScatterDecode(decoder, sizeDigit, xlim, ylim, numDigit=15, dimShow=[0, 1]):
     '''
     This function is to plot the reconstructed images from the sampling grid of encoded dimension.
     It should be noted that the sampling grid is only for the first 2 encoded dimensions.
@@ -132,7 +133,7 @@ def plotScatterDecode(decoder, sizeDigit, xlim, ylim, numDigit=15):
     for i, xi in enumerate(xGrid):
         for j, yi in enumerate(yGrid):
             zSample = np.array([np.zeros(dimEncode)])  # generate the sample whose shape is (1, dimEncode) and all values are 0
-            zSample[:, 0:2] = np.array([xi, yi])  # just replace the first 2 dimension with the sampling grid
+            zSample[:, dimShow] = np.array([xi, yi])  # just replace the first 2 dimension with the sampling grid
             decode = decoder.predict(zSample)
             digit = decode[0].reshape(sizeDigit)
             figure[j * sizeDigit[0]: (j + 1) * sizeDigit[0],  # 1st pos for y
